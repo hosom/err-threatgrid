@@ -21,6 +21,7 @@ class ThreatGrid(BotPlugin):
 		params = {
 			'apikey' : self.config['apikey'],
 			'after' : self.config['search_width'],
+			'before' : 'today'
 			'checksum' : file_hash
 		}
 
