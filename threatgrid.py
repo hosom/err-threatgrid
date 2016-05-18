@@ -10,6 +10,7 @@ class ThreatGrid(BotPlugin):
 			'search_width' : '30 days ago'
 		}
 
+	@botcmd(admin_only=False)
 	def tg_hashlookup(self, msg, args):
 		'''Lookup a hash using ThreatGrid's API.'''
 		if self.config is None:
