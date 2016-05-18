@@ -1,6 +1,6 @@
 [Core]
-Name = ThreatGrid
-Module = threatgrid
+Name = ThreatGridSearch
+Module = threatgridsearch
 
 [Documentation]
 Description = Adds search capabilities for the Threatgrid API.

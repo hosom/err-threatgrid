@@ -1,4 +1,4 @@
-import pythreatgrid.threatgrid
+from pythreatgrid import threatgrid
 from errbot import BotPlugin, botcmd
 
 class ThreatGrid(BotPlugin):
@@ -21,14 +21,14 @@ class ThreatGrid(BotPlugin):
 		params = {
 			'apikey' : self.config['apikey'],
 			'after' : self.config['search_width'],
-			'before' : 'today'
+			'before' : 'today',
 			'checksum' : file_hash
 		}
 
 		success = False
 		reply = ''
 
-		for results_group in pythreatgrid.threatgrid.search_samples(params):
+		for results_group in threatgrid.search_samples(params):
 			if len(results_group[u'data'][u'items']) > 0:
 				success = True
 
