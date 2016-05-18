@@ -19,7 +19,7 @@ class ThreatGrid(BotPlugin):
 		file_hash = args
 
 		params = {
-			'api_key' : self.config['apikey'],
+			'api_key' : self.config['api_key'],
 			'after' : self.config['search_width'],
 			'before' : 'tomorrow',
 			'checksum' : file_hash
