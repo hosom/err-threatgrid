@@ -1,0 +1,9 @@
+[Core]
+Name = ThreatGrid
+Module = threatgrid
+
+[Documentation]
+Description = Adds search capabilities for the Threatgrid API.
+
+[Python]
+Version = 3
