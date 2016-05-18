@@ -6,7 +6,7 @@ class ThreatGrid(BotPlugin):
 
 	def get_configuration_template(self):
 		return {
-			'apikey' : 'yourapikeygoeshere', 	
+			'api_key' : 'yourapikeygoeshere', 	
 			'search_width' : '30 days ago'
 		}
 
@@ -19,9 +19,9 @@ class ThreatGrid(BotPlugin):
 		file_hash = args
 
 		params = {
-			'apikey' : self.config['apikey'],
+			'api_key' : self.config['apikey'],
 			'after' : self.config['search_width'],
-			'before' : 'today',
+			'before' : 'tomorrow',
 			'checksum' : file_hash
 		}
 
