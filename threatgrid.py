@@ -13,14 +13,13 @@ class ThreatGrid(BotPlugin):
     def get_sample_info(self,params):
         
         try:
-            reply = ''
+            reply = {}
             for results_group in threatgrid.samples(params):
                 if len(results_group[u'data'][u'items']) > 0:
 
                     for result in results_group[u'data'][u'items']:
-                        reply = "\*Information For Sample ID: %s\*\n" % (params['id'])
                         for k,v in result.items():
-                            reply += "\*%s\* : %s\n" % (k,v)
+                            reply[k] = v
            
             return reply
 
@@ -53,29 +52,27 @@ class ThreatGrid(BotPlugin):
                 if len(results_group[u'data'][u'items']) > 0:
                     success = True
 
-                for result in results_group[u'data'][u'items']:
-                    sample_ids.add(result[u'sample'])
-                    match_statement = 'Sample \*%s\* matched on \*%s\*' % (
-                            result[u'sample'], result[u'relation'])
-
-                    reply = '%s\n%s' % (reply, match_statement)
-		       
+                    for result in results_group[u'data'][u'items']:
+                        sample_ids.add(result[u'sample'])
                 
-
-
-
-
+                    if len(sample_ids) < 15: 
+                        for sample in sample_ids:
+                            reply += "Sample \*%s\*\n" % (sample)
+                            sample_dict = self.get_sample_info({'api_key':self.config['api_key'],'after':self.config['search_width'],'id':result[u'sample']})
+                            reply += '\t\*FileName\*: %s\n\t\*OS\*: %s\n\t\*SHA1\*: %s\n\t\*MD5\*: %s\n' % (sample_dict['filename'],sample_dict['os'],sample_dict['sha1'],sample_dict['md5'])
+                            reply += '\t\*ThreatGrid Link\*: `https://panacea.threatgrid.com/samples/%s`\n' % (sample)
+                            yield reply
  
-            reply += "\n`View Sample(s) in ThreatGrid:`\n"
-            for sample in sample_ids:
-                reply += "\n`https://panacea.threatgrid.com/samples/%s`\n" % (sample)
-        
+                    else:
+                        for sample in sample_ids:
+                            reply += "Sample \*%s\*\n" % (sample)
+                      
             if not success:
-                reply = 'No matches found.'
+                yield 'No matches found.'
+       
         except:
-            reply = 'Someting went wrong with API request...\n'
+            yield 'Someting went wrong with API request...probably bad input\n'
 
-        yield reply
 
 
     @botcmd(admin_only=True)
@@ -106,20 +103,24 @@ class ThreatGrid(BotPlugin):
 
                     for result in results_group[u'data'][u'items']:
                         sample_ids.add(result[u'sample'])
-                        match_statement = 'Sample \*%s\* matched on \*%s\*' % (
-                                result[u'sample'], result[u'relation'])
-                        reply = '%s\n%s' % (reply, match_statement)
-  
-            reply += "\n`View Sample(s) in ThreatGrid:`\n"
-            for sample in sample_ids:
-                reply += "\n`https://panacea.threatgrid.com/samples/%s`\n" % (sample)
-        
+                
+                    if len(sample_ids) < 15: 
+                        for sample in sample_ids:
+                            reply += "Sample \*%s\*\n" % (sample)
+                            sample_dict = self.get_sample_info({'api_key':self.config['api_key'],'after':self.config['search_width'],'id':result[u'sample']})
+                            reply += '\t\*FileName\*: %s\n\t\*OS\*: %s\n\t\*SHA1\*: %s\n\t\*MD5\*: %s\n' % (sample_dict['filename'],sample_dict['os'],sample_dict['sha1'],sample_dict['md5'])
+                            reply += '\t\*ThreatGrid Link\*: `https://panacea.threatgrid.com/samples/%s`\n' % (sample)
+                            yield reply
+ 
+                    else:
+                        for sample in sample_ids:
+                            reply += "Sample \*%s\*\n" % (sample)
+                      
             if not success:
-                reply = 'No matches found.'
+                yield 'No matches found.'
+       
         except:
-            reply = 'Something went wrong with API request...\n'
-        
-        yield reply
+            yield 'Someting went wrong with API request...probably bad input\n' 
 
 
 
@@ -130,6 +131,7 @@ class ThreatGrid(BotPlugin):
             return 'This plugin requires configuration first, try !plugin config threatgrid.'
 
         id_params = args
+        reply = '' 
 
         params = {
             'api_key' : self.config['api_key'], 
@@ -140,9 +142,12 @@ class ThreatGrid(BotPlugin):
 
         yield ("Searching ThreatGrid API...\n")
             
-        reply = get_sample_info(params)
+        reply_dict = self.get_sample_info(params)
              
-        if reply:
+        if reply_dict:
+            reply = "\*Information For Sample ID: %s\*\n" % (params['id'])
+            for k,v in reply_dict.items():
+                reply += "\*%s\* : %s\n" % (k,v)
             reply += "\n`View Sample(s) in ThreatGrid:`\n"
             reply += "\n`https://panacea.threatgrid.com/samples/%s`" % (params['id'])                
         else:
