@@ -59,7 +59,7 @@ class ThreatGrid(BotPlugin):
                         for sample in sample_ids:
                             reply += "Sample \*%s\*\n" % (sample)
                             sample_dict = self.get_sample_info({'api_key':self.config['api_key'],'after':self.config['search_width'],'id':result[u'sample']})
-                            reply += '\t\*FileName\*: %s\n\t\*OS\*: %s\n\t\*SHA1\*: %s\n\t\*MD5\*: %s\n' % (sample_dict['filename'],sample_dict['os'],sample_dict['sha1'],sample_dict['md5'])
+                            reply += '\t\*FileName\*: %s\n\t\*OS\*: %s\n\t\*SHA1\*: %s\n\t\*MD5\*: %s\n\t\*SHA256\*: %s\n' % (sample_dict['filename'],sample_dict['os'],sample_dict['sha1'],sample_dict['md5'],sample_dict['sha256'])
                             reply += '\t\*ThreatGrid Link\*: `https://panacea.threatgrid.com/samples/%s`\n' % (sample)
                             yield reply
  
@@ -108,7 +108,7 @@ class ThreatGrid(BotPlugin):
                         for sample in sample_ids:
                             reply += "Sample \*%s\*\n" % (sample)
                             sample_dict = self.get_sample_info({'api_key':self.config['api_key'],'after':self.config['search_width'],'id':result[u'sample']})
-                            reply += '\t\*FileName\*: %s\n\t\*OS\*: %s\n\t\*SHA1\*: %s\n\t\*MD5\*: %s\n' % (sample_dict['filename'],sample_dict['os'],sample_dict['sha1'],sample_dict['md5'])
+                            reply += '\t\*FileName\*: %s\n\t\*OS\*: %s\n\t\*SHA1\*: %s\n\t\*MD5\*: %s\n\t\*SHA256\*: %s\n' % (sample_dict['filename'],sample_dict['os'],sample_dict['sha1'],sample_dict['md5'],sample_dict['sha256'])
                             reply += '\t\*ThreatGrid Link\*: `https://panacea.threatgrid.com/samples/%s`\n' % (sample)
                             yield reply
  
