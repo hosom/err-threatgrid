@@ -61,7 +61,7 @@ class ThreatGrid(BotPlugin):
             return None
 
                 
-    @botcmd(admin_only=True)
+    @botcmd(admin_only=False)
     def tg_hashlookup(self, msg, args):
         '''Lookup a hash using ThreatGrid's API.'''
         if self.config is None:
@@ -99,7 +99,7 @@ class ThreatGrid(BotPlugin):
 
 
 
-    @botcmd(admin_only=True)
+    @botcmd(admin_only=False)
     def tg_iplookup(self, msg, args):
         '''Lookup a IP Address using ThreatGrid's API.'''
         if self.config is None:
@@ -137,7 +137,7 @@ class ThreatGrid(BotPlugin):
 
 
 
-    @botcmd(admin_only=True)
+    @botcmd(admin_only=False)
     def tg_idlookup(self, msg, args):
         '''Lookup a sample ID using ThreatGrid's API.'''
         if self.config is None:
